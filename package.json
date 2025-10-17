@@ -1,0 +1,100 @@
+{
+  "name": "@callstack/polygen",
+  "version": "0.2.2",
+  "description": "React Native Module for running WebAssembly modules, with native performance.",
+  "source": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "react-native": "",
+  "bin": "cli.mjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    },
+    "./polyfill": {
+      "types": "./dist/polyfill.d.ts",
+      "require": "./dist/polyfill.js"
+    },
+    "./config": {
+      "types": "./dist/config.d.ts",
+      "require": "./dist/config.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "dist",
+    "types",
+    "android",
+    "ios",
+    "cpp",
+    "*.podspec",
+    "*.rb",
+    "!ios/build",
+    "!android/build",
+    "!android/gradle",
+    "!android/gradlew",
+    "!android/gradlew.bat",
+    "!android/local.properties",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "!**/.*"
+  ],
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsc -p tsconfig.json --watch",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
+    "build": "tsc -p tsconfig.json",
+    "release": "release-it",
+    "prepublishOnly": "cp ../../README.md ./"
+  },
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "webassembly",
+    "wasm"
+  ],
+  "repository": "github:callstack-incubator/polygen",
+  "author": "Callstack (https://github.com/callstack)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/callstackincubator/polygen/issues"
+  },
+  "homepage": "https://github.com/callstackincubator/polygen",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@callstack/polygen-cli": "0.2.1",
+    "del-cli": "^5.1.0"
+  },
+  "devDependencies": {
+    "@react-native-community/cli": "^15.1.3",
+    "@types/react": "^18.2.44",
+    "react": "17.0.2",
+    "react-native": "0.75.4",
+    "react-native-builder-bob": "^0.30.2",
+    "release-it": "^15.0.0",
+    "turbo": "^1.10.7",
+    "typescript": "^5.2.2"
+  },
+  "resolutions": {
+    "@types/react": "^18.2.44"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "codegenConfig": {
+    "name": "RNPolygenSpec",
+    "type": "modules",
+    "jsSrcsDir": "src",
+    "android": {
+      "javaPackageName": "com.callstack.polygen"
+    }
+  }
+}
