@@ -1,18 +1,60 @@
-buildscript {
-  // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["Wasm_kotlinVersion"]
+project.afterEvaluate {
+    def bundleTaskDebug = tasks.findByName("bundleLibCompileToJarDebug")
+    if (bundleTaskDebug != null) {
+        bundleTaskDebug.enabled = false
+    }
 
-  repositories {
-    google()
-    mavenCentral()
-  }
-
-  dependencies {
-    classpath "com.android.tools.build:gradle:7.2.1"
-    // noinspection DifferentKotlinGradleVersion
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-  }
+    def bundleTaskRelease = tasks.findByName("bundleLibCompileToJarRelease")
+    if (bundleTaskRelease != null) {
+        bundleTaskRelease.enabled = false
+    }
 }
+
+def findNodeModules(baseDir) {
+    def nodeModules = new File(baseDir, "node_modules")
+    if (nodeModules.exists()) {
+        return nodeModules
+    }
+    def parentDir = baseDir.getParentFile()
+    if (parentDir == null) {
+        throw new Exception("Could not find node_modules directory.")
+    }
+    return findNodeModules(parentDir)
+}
+
+
+try {
+    def reactNativeDir = new File(
+            findNodeModules(project.getProjectDir()),
+            "react-native"
+    )
+    project.ext.reactNativeDir = reactNativeDir
+} catch (Exception e) {
+    throw new Exception("Failed to find react-native directory. " + e.getMessage())
+}
+
+
+buildscript {
+    ext {
+        buildToolsVersion = "36.0.0"
+        minSdkVersion = 24
+        compileSdkVersion = 36
+        targetSdkVersion = 36
+        ndkVersion = "27.1.12297006"
+        kotlinVersion = "2.1.20"
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle")
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+    }
+}
+
+apply plugin: "com.facebook.react.rootproject"
 
 def reactNativeArchitectures() {
   def value = rootProject.getProperties().get("reactNativeArchitectures")
@@ -54,6 +96,7 @@ android {
     sourceSets {
       main {
         manifest.srcFile "src/main/AndroidManifestNew.xml"
+        java.srcDirs += "$buildDir/generated/source/codegen"
       }
     }
   }
@@ -68,20 +111,23 @@ android {
 
     externalNativeBuild {
       cmake {
+        targets "libpolygen"
         cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
         abiFilters (*reactNativeArchitectures())
+        arguments "-DANDROID_STL=c++_shared"
       }
     }
   }
 
   externalNativeBuild {
-    cmake {
-      path "CMakeLists.txt"
-    }
+      cmake {
+          path "CMakeLists.txt"
+      }
   }
 
   buildFeatures {
     buildConfig true
+    prefab true
   }
 
   buildTypes {
@@ -106,7 +152,8 @@ android {
           "src/newarch",
           // Codegen specs
           "generated/java",
-          "generated/jni"
+          "generated/jni",
+          "$buildDir/generated/source/codegen"
         ]
       } else {
         java.srcDirs += ["src/oldarch"]
@@ -127,13 +174,7 @@ dependencies {
   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
+  implementation("com.facebook.react:react-android")
+  implementation("com.facebook.react:hermes-android")
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-}
-
-if (isNewArchitectureEnabled()) {
-  react {
-    jsRootDir = file("../src/")
-    libraryName = "Wasm"
-    codegenJavaPackageName = "com.wasm"
-  }
 }
