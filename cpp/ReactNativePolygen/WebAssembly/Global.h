@@ -30,8 +30,8 @@ public:
     F64,
   };
 
-  explicit Global(Type type, void* data, bool isMutable = false): type_(type), data_((Payload*)data), isMutable_(isMutable) {}
-  explicit Global(Type type, facebook::jsi::Value value, bool isMutable = false): type_(type), isMutable_(isMutable), data_(&ownedData_) {
+  explicit Global(Type type, void* data, bool isMutable = false): isMutable_(isMutable), type_(type), data_((Payload*)data) {}
+  explicit Global(Type type, facebook::jsi::Value value, bool isMutable = false): isMutable_(isMutable), type_(type), data_(&ownedData_) {
     setValueUnsafe(std::move(value));
   }
 

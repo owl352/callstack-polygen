@@ -1,25 +1,41 @@
-file(GLOB_RECURSE polygen_headers CONFIGURE_DEPENDS *.h *.hpp)
-file(GLOB_RECURSE polygen_sources CONFIGURE_DEPENDS *.cpp *.c *.cxx)
+# CMakeLists.txt for ReactNativePolygen
 
-add_library(polygen STATIC ${polygen_sources} ${polygen_headers})
-target_sources(polygen
-    PRIVATE
-        ${polygen_sources}
-        ${polygen_headers}
+# Find source and header files
+file(GLOB_RECURSE polygen_headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp")
+file(GLOB_RECURSE polygen_sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ..
-        FILES ${polygen_headers}
+find_package(ReactAndroid REQUIRED CONFIG)
+find_package(hermes-engine REQUIRED CONFIG)
+
+# Create a static library
+add_library(polygen_core STATIC ${polygen_sources} ${polygen_headers})
+
+# Specify include directories for polygen_core
+target_include_directories(polygen_core PUBLIC
+    # Path to own headers (for external access)
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+
+    # Paths to React Native (if needed in public headers of polygen_core)
+    ${REACT_NATIVE_DIR}/ReactCommon/turbomodule
+    ${REACT_NATIVE_DIR}/ReactCommon
+
+    # Path to wasm-rt. It is needed publicly as it is used in bridge.h
+    "${CMAKE_CURRENT_SOURCE_DIR}/../wasm-rt"
 )
-#target_include_directories(polygen PUBLIC SYSTEM .)
 
-# Check for test-runner
-#if(DEFINED fakern)
-target_link_libraries(polygen INTERFACE JSI)
-target_link_libraries(polygen PUBLIC wasm-rt fakern)
+# Set C++ standard
+set_target_properties(polygen_core PROPERTIES CXX_STANDARD 20)
 
-get_target_property(polygen_SOURCE_DIR polygen SOURCE_DIR)
-set(project_dir "${polygen_SOURCE_DIR}/../..")
-target_add_react_native_codegen(polygen PATH "${project_dir}")
-#endif()
+# Link dependencies.
+# PUBLIC: if the dependency (e.g., jsi) is used in public .h files of polygen_core
+# PRIVATE: if the dependency is only used inside .cpp files of polygen_core
+target_link_libraries(polygen_core
+  PUBLIC
+    ReactAndroid::jsi
+    wasm-rt
+
+  PUBLIC
+    log
+    ReactAndroid::reactnative
+    hermes-engine::libhermes
+)

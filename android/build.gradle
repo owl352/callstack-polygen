@@ -111,7 +111,7 @@ android {
 
     externalNativeBuild {
       cmake {
-        targets "libpolygen"
+        targets "polygen"
         cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
         abiFilters (*reactNativeArchitectures())
         arguments "-DANDROID_STL=c++_shared"
@@ -147,17 +147,13 @@ android {
 
   sourceSets {
     main {
-      if (isNewArchitectureEnabled()) {
-        java.srcDirs += [
-          "src/newarch",
-          // Codegen specs
-          "generated/java",
-          "generated/jni",
-          "$buildDir/generated/source/codegen"
-        ]
-      } else {
-        java.srcDirs += ["src/oldarch"]
-      }
+      java.srcDirs += [
+        "src/main/java/com/wasm",
+        // Codegen specs
+        "generated/java",
+        "generated/jni",
+        "$buildDir/generated/source/codegen"
+      ]
     }
   }
 }

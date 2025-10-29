@@ -116,9 +116,7 @@ namespace facebook::react {
                                          std::optional<jsi::Object> initial) {
         auto descriptor = NativeTableDescriptorBridging::fromJs(rt, tableDescriptor, this->jsInvoker_);
         std::shared_ptr<Table> table;
-        auto maxSizeNumber = descriptor.maxSize.has_value()
-                                 ? std::make_optional((double) descriptor.maxSize.value())
-                                 : std::nullopt;
+
 
         switch (descriptor.element) {
             case NativeTableElementType::AnyFunc:

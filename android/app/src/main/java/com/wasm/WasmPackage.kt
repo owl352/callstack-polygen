@@ -26,7 +26,7 @@ class WasmPackage : TurboReactPackage() {
         false,  // canOverrideExistingModule
         false,  // needsEagerInit
         true,  // hasConstants
-        false,  // isCxxModule
+        true,  // isCxxModule
         isTurboModule // isTurboModule
       )
       moduleInfos

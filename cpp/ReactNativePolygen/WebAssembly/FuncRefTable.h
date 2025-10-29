@@ -51,7 +51,7 @@ public:
   }
   
   void grow(ptrdiff_t delta) override {
-    wasm_rt_grow_funcref_table(this->table_, delta, { nullptr, nullptr, nullptr, nullptr });
+    wasm_rt_grow_funcref_table(this->table_, delta, {{ nullptr }});
   }
   
   std::shared_ptr<TableElement> getElement(size_t index) const override {

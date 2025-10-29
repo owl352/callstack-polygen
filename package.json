@@ -10,7 +10,7 @@
   "exports": {
     ".": "./dist/index.js",
     "./polyfill": "./dist/polyfill.js",
-    "./dist/polyfill": "./dist/polyfill.js",
+    "./dist/polyfill.js": "./dist/polyfill.js",
     "./config": "./dist/config.js",
     "./package.json": "./package.json"
   },
@@ -86,7 +86,7 @@
     "type": "modules",
     "jsSrcsDir": "src",
     "android": {
-      "javaPackageName": "com.callstack.polygen"
+      "javaPackageName": "com.wasm"
     }
   }
 }
