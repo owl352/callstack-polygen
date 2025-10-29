@@ -35,51 +35,51 @@ class PolygenModule(reactContext: ReactApplicationContext) : NativePolygenSpec(r
     // --- Native methods that call C++ JNI functions ---
 
     override fun copyNativeHandle(holder: ReadableMap, from: ReadableMap): Boolean {
-            return false
-        }
+      return false
+    }
 
-        override fun loadModule(holder: ReadableMap, moduleData: ReadableMap): WritableMap? {
-            return null
-        }
+    override fun loadModule(holder: ReadableMap, moduleData: ReadableMap): WritableMap? {
+        return null
+    }
 
-        override fun unloadModule(module: ReadableMap) { /* no-op */ }
+    override fun unloadModule(module: ReadableMap) { /* no-op */ }
 
-        override fun getModuleMetadata(module: ReadableMap): WritableMap? {
-            return null
-        }
+    override fun getModuleMetadata(module: ReadableMap): WritableMap? {
+        return null
+    }
 
-        override fun createModuleInstance(holder: ReadableMap, mod: ReadableMap, importObject: ReadableMap) { /* no-op */ }
+    override fun createModuleInstance(holder: ReadableMap, mod: ReadableMap, importObject: ReadableMap) { /* no-op */ }
 
-        override fun destroyModuleInstance(instance: ReadableMap) { /* no-op */ }
+    override fun destroyModuleInstance(instance: ReadableMap) { /* no-op */ }
 
-        override fun createMemory(holder: ReadableMap, initial: Double, maximum: Double?) { /* no-op */ }
+    override fun createMemory(holder: ReadableMap, initial: Double, maximum: Double?) { /* no-op */ }
 
-        override fun getMemoryBuffer(instance: ReadableMap): WritableMap? {
-            return null
-        }
+    override fun getMemoryBuffer(instance: ReadableMap): WritableMap? {
+        return null
+    }
 
-        override fun growMemory(instance: ReadableMap, delta: Double) { /* no-op */ }
+    override fun growMemory(instance: ReadableMap, delta: Double) { /* no-op */ }
 
-        override fun createGlobal(holder: ReadableMap, descriptor: ReadableMap, initialValue: Double) { /* no-op */ }
+    override fun createGlobal(holder: ReadableMap, descriptor: ReadableMap, initialValue: Double) { /* no-op */ }
 
-        override fun getGlobalValue(instance: ReadableMap): Double {
-            return 0.0
-        }
+    override fun getGlobalValue(instance: ReadableMap): Double {
+        return 0.0
+    }
 
-        override fun setGlobalValue(instance: ReadableMap, newValue: Double) { /* no-op */ }
+    override fun setGlobalValue(instance: ReadableMap, newValue: Double) { /* no-op */ }
 
-        override fun createTable(holder: ReadableMap, descriptor: ReadableMap, initial: ReadableMap?) { /* no-op */ }
+    override fun createTable(holder: ReadableMap, descriptor: ReadableMap, initial: ReadableMap?) { /* no-op */ }
 
-        override fun growTable(instance: ReadableMap, delta: Double) { /* no-op */ }
+    override fun growTable(instance: ReadableMap, delta: Double) { /* no-op */ }
 
-        override fun getTableElement(instance: ReadableMap, index: Double): WritableMap? {
-            return null
-        }
+    override fun getTableElement(instance: ReadableMap, index: Double): WritableMap? {
+        return null
+    }
 
-        override fun setTableElement(instance: ReadableMap, index: Double, value: ReadableMap) { /* no-op */ }
+    override fun setTableElement(instance: ReadableMap, index: Double, value: ReadableMap) { /* no-op */ }
 
-        override fun getTableSize(instance: ReadableMap): Double {
-            return 0.0
-        }
+    override fun getTableSize(instance: ReadableMap): Double {
+        return 0.0
+    }
 }
 
