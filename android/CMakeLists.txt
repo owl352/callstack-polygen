@@ -46,25 +46,13 @@ target_compile_definitions(
 
 # --- Specify ALL include paths for this ONE library ---
 target_include_directories(polygen PUBLIC
-    # Path for #include <ReactNativePolygen/Loader.h>
     "${CPP_ROOT_DIR}"
-
-    # Base path to generated files
     "${CODEGEN_JNI_DIR}"
-
-    # !!! THIS IS THE SOLUTION !!!
-    # Add the exact path where the .h files are located
     "${CODEGEN_JNI_DIR}/react/renderer/components/RNPolygenSpec"
-
-    # Paths for wasm
     "${POLYGEN_OUT_HOST_DIR}"
     "${WASM_RT_SRC_DIR}"
-
-    # Paths for JSI, React Native, etc.
     $<TARGET_PROPERTY:ReactAndroid::jsi,INTERFACE_INCLUDE_DIRECTORIES>
     $<TARGET_PROPERTY:ReactAndroid::reactnative,INTERFACE_INCLUDE_DIRECTORIES>
-
-    # Other paths
     "${POLYGEN_SRC_DIR}/WebAssembly"
 )
 

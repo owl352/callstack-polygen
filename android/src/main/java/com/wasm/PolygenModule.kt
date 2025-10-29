@@ -35,19 +35,16 @@ class PolygenModule(reactContext: ReactApplicationContext) : NativePolygenSpec(r
     // --- Native methods that call C++ JNI functions ---
 
     override fun copyNativeHandle(holder: ReadableMap, from: ReadableMap): Boolean {
-            // Эта логика обрабатывается в C++
             return false
         }
 
         override fun loadModule(holder: ReadableMap, moduleData: ReadableMap): WritableMap? {
-            // Эта логика обрабатывается в C++
             return null
         }
 
         override fun unloadModule(module: ReadableMap) { /* no-op */ }
 
         override fun getModuleMetadata(module: ReadableMap): WritableMap? {
-            // Эта логика обрабатывается в C++
             return null
         }
 
@@ -58,7 +55,6 @@ class PolygenModule(reactContext: ReactApplicationContext) : NativePolygenSpec(r
         override fun createMemory(holder: ReadableMap, initial: Double, maximum: Double?) { /* no-op */ }
 
         override fun getMemoryBuffer(instance: ReadableMap): WritableMap? {
-            // Эта логика обрабатывается в C++
             return null
         }
 
@@ -67,7 +63,6 @@ class PolygenModule(reactContext: ReactApplicationContext) : NativePolygenSpec(r
         override fun createGlobal(holder: ReadableMap, descriptor: ReadableMap, initialValue: Double) { /* no-op */ }
 
         override fun getGlobalValue(instance: ReadableMap): Double {
-            // Эта логика обрабатывается в C++
             return 0.0
         }
 
@@ -78,14 +73,12 @@ class PolygenModule(reactContext: ReactApplicationContext) : NativePolygenSpec(r
         override fun growTable(instance: ReadableMap, delta: Double) { /* no-op */ }
 
         override fun getTableElement(instance: ReadableMap, index: Double): WritableMap? {
-            // Эта логика обрабатывается в C++
             return null
         }
 
         override fun setTableElement(instance: ReadableMap, index: Double, value: ReadableMap) { /* no-op */ }
 
         override fun getTableSize(instance: ReadableMap): Double {
-            // Эта логика обрабатывается в C++
             return 0.0
         }
 }
